@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Info from './components/Info';
-import Chat from './components/Chat';
+import ChatPage from './pages/ChatPage';
 import Index from './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-        <Chat />,
+        <ChatPage />,
         document.getElementById('root'));
 registerServiceWorker();

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import moment from 'moment';
 
 import Message from './Message';
+import settings from '../firebase';
 
 class Chat extends Component {
     state = {
@@ -11,14 +13,7 @@ class Chat extends Component {
     constructor() {
         super();
 
-        firebase.initializeApp({
-            apiKey: "<your_api>",
-            authDomain: "<your_domain>",
-            databaseURL: "<your_url>",
-            projectId: "<your_project_id>",
-            storageBucket: "<your_storage_bucket>",
-            messagingSenderId: "<your_messaging_id>"
-        });
+        firebase.initializeApp(settings);
     }
 
     componentWillMount() {
@@ -26,6 +21,7 @@ class Chat extends Component {
 
         ref.on('value', (data) => {
             this.setState({ messages: data.val() });
+            this.scrollContainer();
         });
     }
 
@@ -43,21 +39,32 @@ class Chat extends Component {
     sendMessage = (event) => {
         if (event.keyCode == 13) {
             firebase.database().ref('chat').push({
-                name: 'Cristiano',
+                name: this.props.name,
                 text: event.target.value,
-                time: "teste data"
+                time: moment().format('MMMM Do YYYY, h:mm:ss')
+            }, () => {
+                this.scrollContainer();
             });
+            
             event.target.value = "";
         }
     }
 
+    scrollContainer() {
+        let element = document.getElementsByClassName('messages')[0];
+        element.scrollTop = element.scrollHeight;
+    }
+
     render() {
         return (
-            <div className="ui items">
-                {this.renderMessages()}
+            <div>
+                <div className="ui items messages">
+                    {this.renderMessages()}
+                </div>
 
                 <div className="ui input fluid">
                     <input type="text"
+                           placeholder="Type your message..."
                            name="message"
                            onKeyUp={this.sendMessage} />
                 </div>
