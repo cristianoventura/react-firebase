@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.message {
+  background-color: #f9f9f9;
+  font-size: 13px;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+
+.message p {
+  margin-bottom: 0;
+}
+
+.message__name {
+  color: #9c9c9c;
+  font-weight: 800;
+}
+
+.message__text {
+  font-size: 16px;
+  margin: 5px 0;
+}
